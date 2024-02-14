@@ -8,6 +8,7 @@ import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ItemServiceImpl(
@@ -15,17 +16,17 @@ class ItemServiceImpl(
 ): ItemService {
 
     override fun getItemList(): List<ItemResponseDto> {
-        val itemList = itemRepository.findAll().filter { !it.isDeleted }
+        val itemList = itemRepository.findAll()
         return itemList.map{ it.toResponse() }
     }
 
     override fun getItemById(itemId: Long): ItemResponseDto {
         val item = itemRepository.findByIdOrNull(itemId)
-            ?.takeIf { !it.isDeleted }
             ?: throw ModelNotFoundException("ItemEntity", itemId)
         return item.toResponse()
     }
 
+    @Transactional
     override fun addItem(request: ItemRequestDto): ItemResponseDto {
         return itemRepository.save(
             ItemEntity(
@@ -40,9 +41,9 @@ class ItemServiceImpl(
         ).toResponse()
     }
 
+    @Transactional
     override fun updateItem(itemId: Long, request: ItemRequestDto): ItemResponseDto {
         val item = itemRepository.findByIdOrNull(itemId)
-            ?.takeIf { !it.isDeleted }
             ?: throw ModelNotFoundException("ItemEntity", itemId)
         item.itemName = request.itemName
         item.price = request.price
@@ -54,9 +55,9 @@ class ItemServiceImpl(
 
     }
 
+    @Transactional
     override fun deleteItem(itemId: Long) {
         val item = itemRepository.findByIdOrNull(itemId)
-            ?.takeIf { !it.isDeleted }
             ?: throw ModelNotFoundException("ItemEntity", itemId)
         item.isDeleted = true
     }

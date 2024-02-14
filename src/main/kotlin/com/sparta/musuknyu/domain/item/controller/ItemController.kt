@@ -54,7 +54,7 @@ class ItemController(
     }
 
     @Operation(summary = "상품 삭제")
-    @DeleteMapping("/{itemId}")
+    @PatchMapping("/{itemId}")
     fun deleteItem(@PathVariable itemId: Long): ResponseEntity<Unit>{
         return ResponseEntity
             .status(HttpStatus.OK)

@@ -2,9 +2,11 @@ package com.sparta.musuknyu.domain.item.entity
 
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
 @Table(name = "item")
+@SQLRestriction("is_deleted is false")
 data class ItemEntity (
 
     @Column(name = "item_name", nullable = false)
