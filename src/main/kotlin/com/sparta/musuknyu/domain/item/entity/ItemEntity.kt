@@ -1,5 +1,6 @@
 package com.sparta.musuknyu.domain.item.entity
 
+import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.SQLRestriction
@@ -32,16 +33,43 @@ data class ItemEntity (
 ){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    companion object {
+        fun toEntity(request: ItemRequestDto): ItemEntity {
+            return ItemEntity(
+                itemName = request.itemName,
+                price = request.price,
+                description = request.description,
+                stock = request.stock,
+                canPurchase = request.canPurchase,
+                sales = request.sales,
+                isDeleted = false,
+            )
+        }
+    }
+
+    fun updateItem(request: ItemRequestDto){
+        itemName = request.itemName
+        price = request.price
+        description = request.description
+        stock = request.stock
+        canPurchase = request.canPurchase
+        sales = request.sales
+    }
+
+    fun toResponseDto(): ItemResponseDto{
+        return ItemResponseDto(
+            id = id!!,
+            itemName = itemName,
+            price = price,
+            description = description,
+            stock = stock,
+            canPurchase = canPurchase,
+            sales = sales
+        )
+    }
+
 }
 
-fun ItemEntity.toResponse(): ItemResponseDto {
-    return ItemResponseDto(
-        id = id!!,
-        itemName = itemName,
-        price = price,
-        description = description,
-        stock = stock,
-        canPurchase = canPurchase,
-        sales = sales
-    )
-}
+
+
