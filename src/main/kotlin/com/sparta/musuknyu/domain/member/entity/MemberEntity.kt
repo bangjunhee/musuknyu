@@ -5,13 +5,13 @@ import jakarta.persistence.*
 import org.springframework.data.jpa.domain.AbstractPersistable_.id
 
 @Entity
-@Table(name = "member")
+@Table(name = "members")
 class MemberEntity (
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     val email: String,
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname", nullable = false, unique = true)
     val nickname: String,
 
     @Column(name = "password", nullable = false)
