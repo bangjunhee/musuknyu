@@ -1,7 +1,9 @@
 package com.sparta.musuknyu.domain.item.controller
 
+import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
+import com.sparta.musuknyu.domain.item.entity.ItemTag
 import com.sparta.musuknyu.domain.item.service.ItemService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -75,18 +77,13 @@ class ItemController(
     @Operation(summary = "상품 목록 조회 - 페이징 + 정렬")
     @GetMapping("/page")
     fun getPostListPaginated(
-        @PageableDefault(size = 15, sort = ["id"]) pageable: Pageable,
-        @RequestParam
-        itemName: String?,
-        price: Long?,
-        description: String?,
-        stock: Long?,
-        canPurchase: Boolean?,
-        sales: Long?,
-        daysAgo: Long?,
+        @RequestParam(defaultValue = "0") page: Int,
+        sortOrder: SortOrder?,
+        itemTag: ItemTag,
+        keyWords: String?
     ): ResponseEntity<Page<ItemResponseDto>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(itemService.getItemListPaginated(pageable, itemName, price, description, stock, canPurchase, sales, daysAgo))
+            .body(itemService.getItemListPaginated(page, sortOrder, itemTag, keyWords))
     }
 }
