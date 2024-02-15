@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.*
 class ItemController(
     private val itemService: ItemService
 ){
+    @Operation(summary = "상품 검색")
+    @GetMapping("/search")
+    fun searchItemList(
+        @RequestParam search:String
+    ): ResponseEntity<List<ItemResponseDto>> {
+        val searchedItem = itemService.searchItem(search)
+        return ResponseEntity.ok(searchedItem)
+    }
     @Operation(summary = "상품 전체 조회")
     @GetMapping
     fun getItemList(): ResponseEntity<List<ItemResponseDto>> {

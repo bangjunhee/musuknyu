@@ -4,6 +4,7 @@ import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.entity.ItemEntity
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
+import com.sparta.musuknyu.domain.item.repository.QueryItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -11,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ItemServiceImpl(
-    private val itemRepository: ItemRepository,
+    private val itemRepository: ItemRepository
 ): ItemService {
+    override fun searchItem(search: String): List<ItemResponseDto> {
+        return itemRepository.searchItemList(search).map { it.toResponseDto() }
+    }
 
     override fun getItemList(): List<ItemResponseDto> {
         val itemList = itemRepository.findAll()
