@@ -1,8 +1,10 @@
 package com.sparta.musuknyu.domain.item.service
 
+import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.entity.ItemEntity
+import com.sparta.musuknyu.domain.item.entity.ItemTag
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.domain.item.repository.QueryItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
@@ -54,15 +56,11 @@ class ItemServiceImpl(
 
     //글 목록 조회 - 페이징 + 커스텀 정렬 + N일전 게시글 조회 (동적쿼리)
     override fun getItemListPaginated(
-        pageable: Pageable,
-        itemName: String?,
-        price: Long?,
-        description: String?,
-        stock: Long?,
-        canPurchase: Boolean?,
-        sales: Long?,
-        daysAgo: Long?
+        page: Int,
+        sortOrder: SortOrder?,
+        itemTag: ItemTag,
+        keywords: String?
     ): Page<ItemResponseDto> {
-        return itemRepository.findByPageable(pageable, itemName, price, description, stock, canPurchase, sales, daysAgo).map { it.toResponseDto() }
+        return itemRepository.findByPageable(page, sortOrder, itemTag, keywords).map { it.toResponseDto() }
     }
 }

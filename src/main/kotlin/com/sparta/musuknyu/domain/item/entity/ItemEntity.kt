@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "item")
 @SQLRestriction("is_deleted is false")
-data class ItemEntity (
+data class ItemEntity(
 
     @Column(name = "item_name", nullable = false)
     var itemName: String,
@@ -29,11 +29,16 @@ data class ItemEntity (
     @Column(name = "sales", nullable = false)
     var sales: Long,
 
-    @Column(name = "is_deleted", nullable = false)
-    var isDeleted: Boolean
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tag", nullable = false)
+    var itemTag: ItemTag,
 
-){
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "is_deleted", nullable = false)
+    var isDeleted: Boolean,
+
+    ) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
     @Column(name = "created_at")
@@ -51,22 +56,24 @@ data class ItemEntity (
                 stock = request.stock,
                 canPurchase = request.canPurchase,
                 sales = request.sales,
-                isDeleted = false,
+                itemTag = request.itemTag,
+                isDeleted = false
             )
         }
     }
 
-    fun updateItem(request: ItemRequestDto){
+    fun updateItem(request: ItemRequestDto) {
         itemName = request.itemName
         price = request.price
         description = request.description
         stock = request.stock
         canPurchase = request.canPurchase
         sales = request.sales
+        itemTag = request.itemTag
         updatedAt = LocalDateTime.now()
     }
 
-    fun toResponseDto(): ItemResponseDto{
+    fun toResponseDto(): ItemResponseDto {
         return ItemResponseDto(
             id = id!!,
             itemName = itemName,
@@ -76,7 +83,8 @@ data class ItemEntity (
             canPurchase = canPurchase,
             sales = sales,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
+            itemTag = itemTag
         )
     }
 
