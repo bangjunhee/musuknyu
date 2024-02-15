@@ -22,7 +22,7 @@ class SecurityConfig(
 
     private val allowedUrls = arrayOf(
         "/**", "/swagger-ui/**", "/v3/**",
-        "/items/**", "/search/**"
+        "/items/**", "/search/**", "/h2-console/**"
     )
 
     private val anonymousUrls = arrayOf(
@@ -45,6 +45,7 @@ class SecurityConfig(
                 it.authenticationEntryPoint(authenticationEntryPoint)
                 it.accessDeniedHandler(accessDeniedHandler)
             }
+            .headers { it.frameOptions { it1 -> it1.disable() } }
             .build()
     }
 }
