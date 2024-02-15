@@ -3,7 +3,6 @@ package com.sparta.musuknyu.domain.item.service
 import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.entity.ItemEntity
-import com.sparta.musuknyu.domain.item.entity.toResponse
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
@@ -17,42 +16,27 @@ class ItemServiceImpl(
 
     override fun getItemList(): List<ItemResponseDto> {
         val itemList = itemRepository.findAll()
-        return itemList.map{ it.toResponse() }
+        return itemList.map{ it.toResponseDto() }
     }
 
     override fun getItemById(itemId: Long): ItemResponseDto {
         val item = itemRepository.findByIdOrNull(itemId)
             ?: throw ModelNotFoundException("ItemEntity", itemId)
-        return item.toResponse()
+        return item.toResponseDto()
     }
 
     @Transactional
     override fun addItem(request: ItemRequestDto): ItemResponseDto {
-        return itemRepository.save(
-            ItemEntity(
-                itemName = request.itemName,
-                price = request.price,
-                description = request.description,
-                stock = request.stock,
-                canPurchase = request.canPurchase,
-                sales = request.sales,
-                isDeleted = false
-            )
-        ).toResponse()
+        val item = itemRepository.save(ItemEntity.toEntity(request))
+        return item.toResponseDto()
     }
 
     @Transactional
     override fun updateItem(itemId: Long, request: ItemRequestDto): ItemResponseDto {
         val item = itemRepository.findByIdOrNull(itemId)
             ?: throw ModelNotFoundException("ItemEntity", itemId)
-        item.itemName = request.itemName
-        item.price = request.price
-        item.description = request.description
-        item.stock = request.stock
-        item.canPurchase = request.canPurchase
-        item.sales = request.sales
-        return item.toResponse()
-
+        item.updateItem(request)
+        return item.toResponseDto()
     }
 
     @Transactional
