@@ -6,6 +6,8 @@ import com.sparta.musuknyu.domain.item.entity.ItemEntity
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.domain.item.repository.QueryItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -48,5 +50,19 @@ class ItemServiceImpl(
         val item = itemRepository.findByIdOrNull(itemId)
             ?: throw ModelNotFoundException("ItemEntity", itemId)
         item.isDeleted = true
+    }
+
+    //글 목록 조회 - 페이징 + 커스텀 정렬 + N일전 게시글 조회 (동적쿼리)
+    override fun getItemListPaginated(
+        pageable: Pageable,
+        itemName: String?,
+        price: Long?,
+        description: String?,
+        stock: Long?,
+        canPurchase: Boolean?,
+        sales: Long?,
+        daysAgo: Long?
+    ): Page<ItemResponseDto> {
+        return itemRepository.findByPageable(pageable, itemName, price, description, stock, canPurchase, sales, daysAgo).map { it.toResponseDto() }
     }
 }

@@ -5,6 +5,9 @@ import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.service.ItemService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -67,5 +70,23 @@ class ItemController(
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(itemService.deleteItem(itemId))
+    }
+
+    @Operation(summary = "상품 목록 조회 - 페이징 + 정렬")
+    @GetMapping("/page")
+    fun getPostListPaginated(
+        @PageableDefault(size = 15, sort = ["id"]) pageable: Pageable,
+        @RequestParam
+        itemName: String?,
+        price: Long?,
+        description: String?,
+        stock: Long?,
+        canPurchase: Boolean?,
+        sales: Long?,
+        daysAgo: Long?,
+    ): ResponseEntity<Page<ItemResponseDto>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(itemService.getItemListPaginated(pageable, itemName, price, description, stock, canPurchase, sales, daysAgo))
     }
 }
