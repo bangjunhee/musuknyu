@@ -4,6 +4,7 @@ import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.SQLRestriction
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "item")
@@ -30,9 +31,16 @@ data class ItemEntity (
 
     @Column(name = "is_deleted", nullable = false)
     var isDeleted: Boolean
+
 ){
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    @Column(name = "created_at")
+    val createdAt: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "updated_at")
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 
     companion object {
         fun toEntity(request: ItemRequestDto): ItemEntity {
@@ -55,6 +63,7 @@ data class ItemEntity (
         stock = request.stock
         canPurchase = request.canPurchase
         sales = request.sales
+        updatedAt = LocalDateTime.now()
     }
 
     fun toResponseDto(): ItemResponseDto{
@@ -65,7 +74,9 @@ data class ItemEntity (
             description = description,
             stock = stock,
             canPurchase = canPurchase,
-            sales = sales
+            sales = sales,
+            createdAt = createdAt,
+            updatedAt = updatedAt
         )
     }
 
