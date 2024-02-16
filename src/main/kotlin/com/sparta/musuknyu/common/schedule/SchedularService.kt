@@ -6,11 +6,11 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 
-@Service
-class SchedulerService {
-    @Scheduled(fixedDelay = 5000)
-    @CacheEvict(value = ["keyword"], allEntries = true)
-    fun deleteCacheEveryThreeMinutes() {
-        log.info("Cache is deleted")
-    }
-}
+//@Service
+//class SchedulerService {
+//    @Scheduled(fixedDelay = 5000)
+//    @CacheEvict(value = ["keyword"], allEntries = true)
+//    fun deleteCacheEveryThreeMinutes() {
+//        log.info("Cache is deleted")
+//    }
+//}
