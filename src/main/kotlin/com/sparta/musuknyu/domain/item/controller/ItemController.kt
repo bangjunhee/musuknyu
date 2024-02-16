@@ -7,6 +7,7 @@ import com.sparta.musuknyu.domain.item.entity.ItemTag
 import com.sparta.musuknyu.domain.item.service.ItemService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -48,7 +49,7 @@ class ItemController(
 
     @Operation(summary = "상품 생성")
     @PostMapping
-    fun addItem(@RequestBody itemRequestDto: ItemRequestDto
+    fun addItem(@Valid @RequestBody itemRequestDto: ItemRequestDto
     ): ResponseEntity<ItemResponseDto>{
         return ResponseEntity
             .status(HttpStatus.CREATED)

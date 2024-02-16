@@ -4,7 +4,6 @@ import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.entity.ItemEntity
 import com.sparta.musuknyu.domain.item.entity.ItemTag
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 
 interface QueryItemRepository {
     fun searchItemList(search: String): List<ItemEntity>

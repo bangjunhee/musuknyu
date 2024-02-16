@@ -3,14 +3,14 @@ package com.sparta.musuknyu.domain.item.entity
 import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
+import jakarta.validation.constraints.Size
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "item")
+@Table(name = "items")
 @SQLRestriction("is_deleted is false")
 data class ItemEntity(
-
     @Column(name = "item_name", nullable = false)
     var itemName: String,
 

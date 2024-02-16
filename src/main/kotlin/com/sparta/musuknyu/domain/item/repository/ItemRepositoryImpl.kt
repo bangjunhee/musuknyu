@@ -8,7 +8,6 @@ import com.sparta.musuknyu.domain.item.entity.QItemEntity
 import com.sparta.musuknyu.infra.querydsl.QueryDslSupport
 import org.springframework.data.domain.*
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class ItemRepositoryImpl: QueryDslSupport(), QueryItemRepository{
