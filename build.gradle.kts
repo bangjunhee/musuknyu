@@ -43,6 +43,8 @@ dependencies {
 	kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta") //queryDsl
 	implementation("com.h2database:h2") //h2
 
+	implementation("io.github.microutils:kotlin-logging:1.12.5")  // kotlin-logging
+
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3") //JWT
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
 //	runtimeOnly("org.postgresql:postgresql") //postgresql

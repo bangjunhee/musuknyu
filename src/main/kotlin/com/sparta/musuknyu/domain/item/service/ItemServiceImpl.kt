@@ -6,10 +6,9 @@ import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.entity.ItemEntity
 import com.sparta.musuknyu.domain.item.entity.ItemTag
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
-import com.sparta.musuknyu.domain.item.repository.QueryItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class ItemServiceImpl(
     private val itemRepository: ItemRepository
 ): ItemService {
+    @Cacheable(key = "#search", value = ["keyword"], unless = "#search.trim().isEmpty()")
     override fun searchItem(search: String): List<ItemResponseDto> {
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
