@@ -1,17 +1,16 @@
 package com.sparta.musuknyu.common.schedule
 
-import mu.KotlinLogging
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 
-@Service
-class SchedulerService {
-    val logger = KotlinLogging.logger{}
-    @Scheduled(fixedDelay = 180000)
-    @CacheEvict(value = ["keyword"], allEntries = true)
-    fun deleteCacheEveryThreeMinutes() {
-        logger.trace{"Cache is deleted"}
-    }
-}
+//@Service
+//class SchedulerService {
+//    @Scheduled(fixedDelay = 5000)
+//    @CacheEvict(value = ["keyword"], allEntries = true)
+//    fun deleteCacheEveryThreeMinutes() {
+//        log.info("Cache is deleted")
+//    }
+//}

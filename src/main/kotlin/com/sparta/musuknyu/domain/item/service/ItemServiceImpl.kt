@@ -7,6 +7,7 @@ import com.sparta.musuknyu.domain.item.entity.ItemEntity
 import com.sparta.musuknyu.domain.item.entity.ItemTag
 import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.repository.findByIdOrNull
@@ -19,6 +20,7 @@ class ItemServiceImpl(
 ): ItemService {
     @Cacheable(key = "#search", value = ["keyword"], unless = "#search.trim().isEmpty()")
     override fun searchItem(search: String): List<ItemResponseDto> {
+        log.info("keyword $search cached")
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
 
