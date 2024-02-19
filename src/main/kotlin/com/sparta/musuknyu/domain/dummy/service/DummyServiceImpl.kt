@@ -29,11 +29,8 @@ class DummyServiceImpl(
             )
             val tag = ItemTag.entries.filterNot { it == ItemTag.ALL }.random()
             val itemType = clothingTypes [tag]?.random()
-
             val itemName = "${colors.random()}_$itemType"+"_${(100..999).random()}"
-
             val stock = (0..1000).random().toLong()
-
             val item = ItemEntity(
                 itemName = itemName,
                 price = (10..100).random() * 1000L,
