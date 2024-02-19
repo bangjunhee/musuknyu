@@ -3,7 +3,6 @@ package com.sparta.musuknyu.domain.item.entity
 import com.sparta.musuknyu.domain.item.dto.ItemRequestDto
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
-import jakarta.validation.constraints.Size
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDateTime
 
