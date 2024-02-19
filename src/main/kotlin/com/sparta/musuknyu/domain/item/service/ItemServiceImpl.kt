@@ -9,6 +9,7 @@ import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.exception.ModelNotFoundException
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.caffeine.CaffeineCacheManager
 import org.springframework.data.domain.Page
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -16,8 +17,16 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ItemServiceImpl(
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val cacheManager: CaffeineCacheManager
 ): ItemService {
+    override fun countKeywords(keyword: String) {
+        val cache = cacheManager.getCache("SearchCounts")
+        val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
+        cache?.put(keyword, currentCount)
+        log.info("keyword '$keyword' Count: $currentCount")
+    }
+
     @Cacheable(key = "#search", value = ["keyword"], unless = "#search.trim().isEmpty()")
     override fun searchItem(search: String): List<ItemResponseDto> {
         log.info("keyword $search cached")

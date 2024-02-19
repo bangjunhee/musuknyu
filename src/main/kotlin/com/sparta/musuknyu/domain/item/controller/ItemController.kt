@@ -26,6 +26,7 @@ class ItemController(
     fun searchItemList(
         @RequestParam search:String
     ): ResponseEntity<List<ItemResponseDto>> {
+        itemService.countKeywords(search)
         val searchedItem = itemService.searchItem(search)
         return ResponseEntity.ok(searchedItem)
     }

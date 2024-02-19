@@ -41,13 +41,15 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3") //JWT
 	implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta") //queryDsl
 	kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta") //queryDsl
-//	implementation("com.h2database:h2") //h2
-	implementation("com.github.ben-manes.caffeine:caffeine:2.8.8") // caffeine
+
+	implementation("com.github.ben-manes.caffeine:caffeine:3.1.2") // caffeine
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+	implementation("com.h2database:h2") //h2
 	implementation("net.datafaker:datafaker:2.0.2")//dummy
 
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3") //JWT
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
-	runtimeOnly("org.postgresql:postgresql") //postgresql
+//	runtimeOnly("org.postgresql:postgresql") //postgresql
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

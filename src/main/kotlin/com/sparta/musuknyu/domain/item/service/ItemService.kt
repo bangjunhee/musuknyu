@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface ItemService {
+    fun countKeywords(keyword: String)
     fun searchItem(search: String): List<ItemResponseDto>
     fun getItemList(): List<ItemResponseDto>
     fun getItemById(itemId: Long): ItemResponseDto
