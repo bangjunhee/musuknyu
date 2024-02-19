@@ -41,7 +41,6 @@ class DummyServiceImpl(
                 itemTag = tag,
                 isDeleted = false
             )
-
             //상품 저장
             itemRepository.save(item)
         }

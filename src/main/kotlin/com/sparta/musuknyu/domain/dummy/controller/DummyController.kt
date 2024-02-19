@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController
 class DummyController(
     private val dummyService: DummyService
 ) {
-
     @Operation(summary = "상품 더미 생성")
     @PostMapping("/items")
     fun generateDummyPosts(
