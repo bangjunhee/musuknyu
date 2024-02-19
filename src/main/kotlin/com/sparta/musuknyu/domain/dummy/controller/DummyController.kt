@@ -22,7 +22,6 @@ class DummyController(
     fun generateDummyPosts(
         @RequestParam count: Int
     ): ResponseEntity<String> {
-        // 여기에서 더미 데이터를 생성하는 로직을 호출
         dummyService.addDummyItems(count)
         return ResponseEntity.status(HttpStatus.CREATED).body("${count} Dummy items added successfully.")
     }

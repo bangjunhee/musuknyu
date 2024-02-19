@@ -23,23 +23,20 @@ class DummyServiceImpl(
                 ItemTag.BEAUTY to listOf("bracelet", "necklace", "earrings", "ring", "hat", "scarf"),
                 ItemTag.GLASSES to listOf("glasses", "sunglasses", "vintage glasses", "sport glasses")
             )
-
             val colors = listOf(
                 "black", "white", "red", "blue", "green", "yellow",
                 "orange", "pink", "purple", "brown", "gray", "beige"
             )
-            // ItemTag에 따라 랜덤한 옷 종류 선택
             val tag = ItemTag.entries.filterNot { it == ItemTag.ALL }.random()
             val itemType = clothingTypes [tag]?.random()
 
-            // 랜덤한 색상과 옷 종류를 조합하여 itemName 생성
             val itemName = "${colors.random()}_$itemType"+"_${(100..999).random()}"
 
             val stock = (0..1000).random().toLong()
 
             val item = ItemEntity(
                 itemName = itemName,
-                price = (10..100).random() * 1000L, // 1000의 단위로 10000부터 100000까지의 랜덤한 값
+                price = (10..100).random() * 1000L,
                 description = "해당 상품을 설명합니다",
                 stock = stock,
                 canPurchase = stock > 0,
@@ -48,7 +45,7 @@ class DummyServiceImpl(
                 isDeleted = false
             )
 
-            // 이제 포스트를 저장
+            //상품 저장
             itemRepository.save(item)
         }
     }
