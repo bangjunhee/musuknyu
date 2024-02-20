@@ -9,10 +9,10 @@ class SearchHistoryEntity(
     @Column(name = "keyword")
     var keywords: String? = null,
 
-    @Column(name = "search_count")
+    @Column(name = "total_search_count")
     var totalSearchCount: Long = 0,
 
-    @Column(name = "daily_count")
+    @Column(name = "previous_Search_Count")
     var previousSearchCount: Long = 0,
 
     ) {
