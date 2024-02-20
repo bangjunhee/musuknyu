@@ -44,12 +44,15 @@ dependencies {
 
 	implementation("com.github.ben-manes.caffeine:caffeine:3.1.2") // caffeine
 	implementation("org.springframework.boot:spring-boot-starter-cache")
-	implementation("com.h2database:h2") //h2
+//	implementation("com.h2database:h2") //h2
 	implementation("net.datafaker:datafaker:2.0.2")//dummy
+	implementation ("org.springframework.boot:spring-boot-starter-data-redis") //redis
+//	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
+//	implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
 
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3") //JWT
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
-//	runtimeOnly("org.postgresql:postgresql") //postgresql
+	runtimeOnly("org.postgresql:postgresql") //postgresql
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

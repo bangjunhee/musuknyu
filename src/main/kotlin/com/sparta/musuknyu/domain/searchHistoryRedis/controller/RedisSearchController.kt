@@ -1,4 +1,4 @@
-package com.sparta.musuknyu.domain.searchHistory.controller
+package com.sparta.musuknyu.domain.searchHistoryRedis.controller
 
 import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "search", description = "검색")
-@RequestMapping("/v1/search")
+@RequestMapping("/v2/search")
 @RestController
-class SearchController(
+class RedisSearchController(
     private val searchService: SearchServiceImpl
 ) {
     @Operation(summary = "인기 검색어 조회")
     @GetMapping("/popularKeywords")
-    fun getPopularKeywords(): ResponseEntity<List<KeywordResponseDto>>{
+    fun getPopularKeywords(): ResponseEntity<List<KeywordResponseDto>> {
         val keywordList = searchService.getPopularKeywords()
         return ResponseEntity.ok(keywordList)
     }

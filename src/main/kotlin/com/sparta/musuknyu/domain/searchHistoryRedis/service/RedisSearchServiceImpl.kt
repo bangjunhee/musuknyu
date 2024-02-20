@@ -1,4 +1,4 @@
-package com.sparta.musuknyu.domain.searchHistory.service
+package com.sparta.musuknyu.domain.searchHistoryRedis.service
 
 import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
@@ -7,20 +7,24 @@ import com.sparta.musuknyu.domain.item.repository.ItemRepository
 import com.sparta.musuknyu.domain.searchHistory.dto.KeywordResponseDto
 import com.sparta.musuknyu.domain.searchHistory.entity.SearchHistoryEntity
 import com.sparta.musuknyu.domain.searchHistory.repository.SearchHistoryRepository
+import com.sparta.musuknyu.domain.searchHistory.service.SearchService
 import org.hibernate.query.sqm.tree.SqmNode
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.cache.caffeine.CaffeineCacheManager
 import org.springframework.data.domain.Page
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class SearchServiceImpl (
+class RedisSearchServiceImpl (
     private val searchHistoryRepository: SearchHistoryRepository,
     private val itemRepository: ItemRepository,
-    private val caffeineCacheManager: CacheManager
-): SearchService{
+    private val redisTemplate: RedisTemplate<String, String>,
+    private val redisCacheManager: CacheManager
+): SearchService {
+
+    private val zSetOperations = redisTemplate.opsForZSet()
 
     override fun getPopularKeywords(): List<KeywordResponseDto>{
         val keywordList = searchHistoryRepository.getPopularKeywords()
@@ -31,8 +35,8 @@ class SearchServiceImpl (
             SqmNode.log.info("Keyword is null, skipping count update.")
             return
         }
-        val cache = caffeineCacheManager.getCache("SearchCounts")
-        val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
+        val cache = redisCacheManager.getCache("SearchCounts")
+        val currentCount = cache?.get(keyword, Int::class.java)?.plus(1) ?: 1
         cache?.put(keyword, currentCount)
         SqmNode.log.info("keyword '$keyword' Count: $currentCount")
     }
@@ -43,7 +47,7 @@ class SearchServiceImpl (
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
 
-//    @Cacheable(key = "#keywords", value = ["keyword"], #keywords.trim().isEmpty()")
+    //    @Cacheable(key = "#keywords", value = ["keyword"], #keywords.trim().isEmpty()")
     @Cacheable(key = "#keywords", value = ["keyword"], condition = "#keywords != null")
     override fun getItemListPaginated(
         page: Int,

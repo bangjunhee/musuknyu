@@ -9,6 +9,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  data:
+    redis:
+      port: 6379
+      host: localhost
+#  jackson:
+#    serialization:
+#      WRITE_DATES_AS_TIMESTAMPS: false
 logging:
   level:
     org:
