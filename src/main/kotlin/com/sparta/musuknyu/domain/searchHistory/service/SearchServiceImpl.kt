@@ -25,19 +25,24 @@ class SearchServiceImpl (
         val keywordList = searchHistoryRepository.getPopularKeywords()
         return keywordList.map { it.toResponseDto() }
     }
-    override fun countKeywords(keyword: String) {
+    override fun countKeywords(keyword: String?) {
+        if (keyword == null) {
+            SqmNode.log.info("Keyword is null, skipping count update.")
+            return
+        }
         val cache = cacheManager.getCache("SearchCounts")
         val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
         cache?.put(keyword, currentCount)
         SqmNode.log.info("keyword '$keyword' Count: $currentCount")
     }
 
-    @Cacheable(key = "#search", value = ["keyword"], unless = "#search.trim().isEmpty()")
+
     override fun searchItem(search: String): List<ItemResponseDto> {
         SqmNode.log.info("keyword $search cached")
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
 
+    @Cacheable(key = "#keywords", value = ["keyword"], unless = "#keywords.trim().isEmpty()")
     override fun getItemListPaginated(
         page: Int,
         sortOrder: SortOrder?,

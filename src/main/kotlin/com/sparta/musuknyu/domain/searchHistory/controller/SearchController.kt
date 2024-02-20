@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/search")
 @RestController
 class SearchController(
-    private val itemService: ItemService,
     private val searchService: SearchServiceImpl
 ) {
     @Operation(summary = "인기 검색어 조회")
@@ -35,7 +34,7 @@ class SearchController(
     fun searchItemList(
         @RequestParam search:String
     ): ResponseEntity<List<ItemResponseDto>> {
-        searchService.countKeywords(search)
+
         val searchedItem = searchService.searchItem(search)
         return ResponseEntity.ok(searchedItem)
     }
@@ -47,6 +46,7 @@ class SearchController(
         itemTag: ItemTag,
         keyWords: String?
     ): ResponseEntity<Page<ItemResponseDto>> {
+        searchService.countKeywords(keyWords)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(searchService.getItemListPaginated(page, sortOrder, itemTag, keyWords))
