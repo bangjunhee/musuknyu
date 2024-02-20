@@ -3,7 +3,6 @@ package com.sparta.musuknyu.domain.searchHistory.controller
 import com.sparta.musuknyu.common.SortOrder
 import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import com.sparta.musuknyu.domain.item.entity.ItemTag
-import com.sparta.musuknyu.domain.item.service.ItemService
 import com.sparta.musuknyu.domain.searchHistory.dto.KeywordResponseDto
 import com.sparta.musuknyu.domain.searchHistory.service.SearchServiceImpl
 import io.swagger.v3.oas.annotations.Operation
