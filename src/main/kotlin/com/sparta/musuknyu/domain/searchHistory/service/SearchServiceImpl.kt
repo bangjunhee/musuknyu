@@ -42,7 +42,8 @@ class SearchServiceImpl (
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
 
-    @Cacheable(key = "#keywords", value = ["keyword"], unless = "#keywords.trim().isEmpty()")
+//    @Cacheable(key = "#keywords", value = ["keyword"], #keywords.trim().isEmpty()")
+    @Cacheable(key = "#keywords", value = ["keyword"], condition = "#keywords != null")
     override fun getItemListPaginated(
         page: Int,
         sortOrder: SortOrder?,
