@@ -21,15 +21,7 @@ import org.springframework.web.bind.annotation.*
 class ItemController(
     private val itemService: ItemService
 ){
-    @Operation(summary = "상품 검색")
-    @GetMapping("/search")
-    fun searchItemList(
-        @RequestParam search:String
-    ): ResponseEntity<List<ItemResponseDto>> {
-        itemService.countKeywords(search)
-        val searchedItem = itemService.searchItem(search)
-        return ResponseEntity.ok(searchedItem)
-    }
+
     @Operation(summary = "상품 전체 조회")
     @GetMapping
     fun getItemList(): ResponseEntity<List<ItemResponseDto>> {
@@ -76,16 +68,5 @@ class ItemController(
             .body(itemService.deleteItem(itemId))
     }
 
-    @Operation(summary = "상품 목록 조회 - 페이징 + 정렬")
-    @GetMapping("/page")
-    fun getPostListPaginated(
-        @RequestParam(defaultValue = "0") page: Int,
-        sortOrder: SortOrder?,
-        itemTag: ItemTag,
-        keyWords: String?
-    ): ResponseEntity<Page<ItemResponseDto>> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(itemService.getItemListPaginated(page, sortOrder, itemTag, keyWords))
-    }
+
 }

@@ -1,23 +1,20 @@
 package com.sparta.musuknyu.domain.searchHistory.service
 
-import com.sparta.musuknyu.domain.searchHistory.entity.SearchHistoryEntity
-import com.sparta.musuknyu.domain.searchHistory.repository.SearchHistoryRepository
-import org.springframework.cache.caffeine.CaffeineCacheManager
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
+import com.sparta.musuknyu.common.SortOrder
+import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
+import com.sparta.musuknyu.domain.item.entity.ItemTag
+import com.sparta.musuknyu.domain.searchHistory.dto.KeywordResponseDto
+import org.springframework.data.domain.Page
 
-@Service
-class SearchService (private val searchHistoryRepository: SearchHistoryRepository){
-
-    @Transactional
-    fun updateOrCreateSearchCount(keyword: String, count: Long){
-        val searchCount = searchHistoryRepository.findByKeywords(keyword)
-            ?: SearchHistoryEntity(
-                keywords = keyword,
-                totalSearchCount = count,
-                previousSearchCount = count
-            )
-        searchCount.updateSearchCount(keyword, count)
-        searchHistoryRepository.save(searchCount)
-    }
+interface SearchService {
+    fun getPopularKeywords(): List<KeywordResponseDto>
+    fun countKeywords(keyword: String)
+    fun searchItem(search: String): List<ItemResponseDto>
+    fun getItemListPaginated(
+        page: Int,
+        sortOrder: SortOrder?,
+        itemTag: ItemTag,
+        keywords: String?
+    ): Page<ItemResponseDto>
+    fun updateOrCreateSearchCount(keyword: String, count: Long)
 }
