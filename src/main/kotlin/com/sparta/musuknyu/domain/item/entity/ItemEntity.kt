@@ -5,6 +5,7 @@ import com.sparta.musuknyu.domain.item.dto.ItemResponseDto
 import jakarta.persistence.*
 import org.hibernate.annotations.SQLRestriction
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Entity
 @Table(name = "items")
@@ -41,10 +42,10 @@ data class ItemEntity(
     var id: Long? = null
 
     @Column(name = "created_at")
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: ZonedDateTime = ZonedDateTime.now()
 
     @Column(name = "updated_at")
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: ZonedDateTime = ZonedDateTime.now()
 
     companion object {
         fun toEntity(request: ItemRequestDto): ItemEntity {
@@ -69,7 +70,7 @@ data class ItemEntity(
         canPurchase = request.canPurchase
         sales = request.sales
         itemTag = request.itemTag
-        updatedAt = LocalDateTime.now()
+        updatedAt = ZonedDateTime.now()
     }
 
     fun toResponseDto(): ItemResponseDto {

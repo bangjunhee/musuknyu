@@ -31,7 +31,7 @@ class RedisConfig {
     fun redisTemplate(): RedisTemplate<String, String> {
         val redisTemplate: RedisTemplate<String, String> = RedisTemplate()
         redisTemplate.keySerializer = StringRedisSerializer() //key 깨짐 방지
-        redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer() //value 깨짐 방지
+        redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper()) //value 깨짐 방지
         redisTemplate.connectionFactory = redisConnectionFactory()
         return redisTemplate
     }
@@ -46,7 +46,7 @@ class RedisConfig {
             )
             .serializeValuesWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(
-                    GenericJackson2JsonRedisSerializer()
+                    GenericJackson2JsonRedisSerializer(objectMapper())
                 )
             )
         return RedisCacheManager.RedisCacheManagerBuilder

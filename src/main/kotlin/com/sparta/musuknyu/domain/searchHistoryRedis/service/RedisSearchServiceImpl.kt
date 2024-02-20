@@ -9,9 +9,9 @@ import com.sparta.musuknyu.domain.searchHistory.entity.SearchHistoryEntity
 import com.sparta.musuknyu.domain.searchHistory.repository.SearchHistoryRepository
 import com.sparta.musuknyu.domain.searchHistory.service.SearchService
 import org.hibernate.query.sqm.tree.SqmNode
-import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
+import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,7 +21,7 @@ class RedisSearchServiceImpl (
     private val searchHistoryRepository: SearchHistoryRepository,
     private val itemRepository: ItemRepository,
     private val redisTemplate: RedisTemplate<String, String>,
-    private val redisCacheManager: CacheManager
+    private val redisCacheManager: RedisCacheManager
 ): SearchService {
 
     private val zSetOperations = redisTemplate.opsForZSet()
@@ -30,13 +30,14 @@ class RedisSearchServiceImpl (
         val keywordList = searchHistoryRepository.getPopularKeywords()
         return keywordList.map { it.toResponseDto() }
     }
+
     override fun countKeywords(keyword: String?) {
         if (keyword == null) {
             SqmNode.log.info("Keyword is null, skipping count update.")
             return
         }
         val cache = redisCacheManager.getCache("SearchCounts")
-        val currentCount = cache?.get(keyword, Int::class.java)?.plus(1) ?: 1
+        val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
         cache?.put(keyword, currentCount)
         SqmNode.log.info("keyword '$keyword' Count: $currentCount")
     }
@@ -47,7 +48,6 @@ class RedisSearchServiceImpl (
         return itemRepository.searchItemList(search).map { it.toResponseDto() }
     }
 
-    //    @Cacheable(key = "#keywords", value = ["keyword"], #keywords.trim().isEmpty()")
     @Cacheable(key = "#keywords", value = ["keyword"], condition = "#keywords != null")
     override fun getItemListPaginated(
         page: Int,
