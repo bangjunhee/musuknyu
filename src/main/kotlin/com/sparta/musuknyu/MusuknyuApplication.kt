@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
 @EnableScheduling
-
+@EnableCaching
 class MusuknyuApplication
 
 fun main(args: Array<String>) {
