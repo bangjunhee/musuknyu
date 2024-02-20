@@ -1,5 +1,6 @@
 package com.sparta.musuknyu.domain.searchHistory.entity
 
+import com.sparta.musuknyu.domain.searchHistory.dto.KeywordResponseDto
 import jakarta.persistence.*
 
 @Entity
@@ -8,10 +9,10 @@ class SearchHistoryEntity(
     @Column(name = "keyword")
     var keywords: String? = null,
 
-    @Column(name = "search_count")
+    @Column(name = "total_search_count")
     var totalSearchCount: Long = 0,
 
-    @Column(name = "daily_count")
+    @Column(name = "previous_Search_Count")
     var previousSearchCount: Long = 0,
 
     ) {
@@ -25,10 +26,10 @@ class SearchHistoryEntity(
         previousSearchCount = count
     }
 
-    fun createSearchCount(keyword: String, count: Long){
-        keywords = keyword
-        totalSearchCount = count
-        previousSearchCount = count
+    fun toResponseDto(): KeywordResponseDto{
+        return KeywordResponseDto(
+            keyword = keywords!!
+        )
     }
 
 }

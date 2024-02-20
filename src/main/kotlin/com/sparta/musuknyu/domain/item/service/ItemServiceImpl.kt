@@ -17,22 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ItemServiceImpl(
-    private val itemRepository: ItemRepository,
-    private val cacheManager: CaffeineCacheManager
+    private val itemRepository: ItemRepository
 ): ItemService {
-    override fun countKeywords(keyword: String) {
-        val cache = cacheManager.getCache("SearchCounts")
-        val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
-        cache?.put(keyword, currentCount)
-        log.info("keyword '$keyword' Count: $currentCount")
-    }
-
-    @Cacheable(key = "#search", value = ["keyword"], unless = "#search.trim().isEmpty()")
-    override fun searchItem(search: String): List<ItemResponseDto> {
-        log.info("keyword $search cached")
-        return itemRepository.searchItemList(search).map { it.toResponseDto() }
-    }
-
     override fun getItemList(): List<ItemResponseDto> {
         val itemList = itemRepository.findAll()
         return itemList.map{ it.toResponseDto() }
@@ -63,15 +49,5 @@ class ItemServiceImpl(
         val item = itemRepository.findByIdOrNull(itemId)
             ?: throw ModelNotFoundException("ItemEntity", itemId)
         item.isDeleted = true
-    }
-
-    //글 목록 조회 - 페이징 + 커스텀 정렬 + N일전 게시글 조회 (동적쿼리)
-    override fun getItemListPaginated(
-        page: Int,
-        sortOrder: SortOrder?,
-        itemTag: ItemTag,
-        keywords: String?
-    ): Page<ItemResponseDto> {
-        return itemRepository.findByPageable(page, sortOrder, itemTag, keywords).map { it.toResponseDto() }
     }
 }
