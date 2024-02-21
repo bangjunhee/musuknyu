@@ -8,12 +8,14 @@ import com.sparta.musuknyu.domain.searchHistory.service.SearchServiceImpl
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Page
+import org.springframework.http.CacheControl
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.concurrent.TimeUnit
 
 @Tag(name = "search", description = "검색")
 @RequestMapping("/search")
@@ -46,8 +48,10 @@ class SearchController(
         keyWords: String?
     ): ResponseEntity<Page<ItemResponseDto>> {
         searchService.countKeywords(keyWords)
+
+        val itemList = searchService.getItemListPaginated(page, sortOrder, itemTag, keyWords)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(searchService.getItemListPaginated(page, sortOrder, itemTag, keyWords))
+            .body(itemList)
     }
 }

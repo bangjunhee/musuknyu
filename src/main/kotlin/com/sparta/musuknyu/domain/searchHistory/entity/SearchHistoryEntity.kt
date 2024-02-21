@@ -22,8 +22,8 @@ class SearchHistoryEntity(
 
     fun updateSearchCount(keyword: String, count: Long){
         keywords = keyword
-        totalSearchCount = count + previousSearchCount
         previousSearchCount = count
+        totalSearchCount = count + previousSearchCount
     }
 
     fun toResponseDto(): KeywordResponseDto{
