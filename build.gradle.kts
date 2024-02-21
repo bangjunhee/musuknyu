@@ -60,7 +60,7 @@ dependencies {
 
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3") //JWT
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
-	runtimeOnly("org.postgresql:postgresql") //postgresql
+//	runtimeOnly("org.postgresql:postgresql") //postgresql
 
 
 }

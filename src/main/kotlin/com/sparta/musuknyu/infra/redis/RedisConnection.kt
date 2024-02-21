@@ -14,7 +14,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 import java.time.Duration
 
 @Configuration
-@EnableCaching
 class RedisConnection(
     @Value("\${spring.data.redis.host}")
     val host: String,
