@@ -16,6 +16,7 @@ class SchedulerService(
         val cache = redisTemplate.opsForHash<String, Long>().entries("SearchCounts")
         cache.forEach { (keyword, count) ->
             searchService.updateOrCreateSearchCount(keyword, count)
+            log.info("Cache data saved to database $keyword $count")
         }
         redisTemplate.delete("SearchCounts")
         log.info("Cache data saved to database")

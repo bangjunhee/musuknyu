@@ -50,10 +50,8 @@ class SearchController(
         searchService.countKeywords(keyWords)
 
         val itemList = searchService.getItemListPaginated(page, sortOrder, itemTag, keyWords)
-        val cacheControl = CacheControl.maxAge(1, TimeUnit.MINUTES)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .cacheControl(cacheControl)
             .body(itemList)
     }
 }

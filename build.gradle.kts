@@ -37,7 +37,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-validation") //validation
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0") //swager
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0") //swagger
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa") //jpa
 	implementation("org.springframework.boot:spring-boot-starter-aop") //Spring AOP
 	implementation("org.springframework.boot:spring-boot-starter-security") //Spring Security
@@ -52,15 +52,15 @@ dependencies {
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
 	testImplementation("io.mockk:mockk:$mockkVersion")
 
-
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
-	implementation("com.h2database:h2") //h2
+
 	implementation("net.datafaker:datafaker:2.0.2")//dummy
 
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3") //JWT
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
-	runtimeOnly("org.postgresql:postgresql") //postgresql
+	// runtimeOnly("org.postgresql:postgresql") //postgresql
+	implementation("com.h2database:h2") //h2
 
 
 }

@@ -10,7 +10,7 @@ import com.sparta.musuknyu.domain.searchHistory.repository.SearchHistoryReposito
 import org.hibernate.query.sqm.tree.SqmNode
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
-import org.springframework.data.redis.cache.RedisCacheManager
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class SearchServiceImpl (
     private val searchHistoryRepository: SearchHistoryRepository,
     private val itemRepository: ItemRepository,
-    private val redisCacheManager: RedisCacheManager
+    private val redisTemplate: RedisTemplate<String, Any>,
 ): SearchService{
 
     override fun getPopularKeywords(): List<KeywordResponseDto>{
@@ -30,9 +30,9 @@ class SearchServiceImpl (
             SqmNode.log.info("Keyword is null, skipping count update.")
             return
         }
-        val cache = redisCacheManager.getCache("SearchCounts")
-        val currentCount = cache?.get(keyword, Integer::class.java)?.toInt()?.plus(1) ?: 1
-        cache?.put(keyword, currentCount)
+        val cache = redisTemplate.opsForHash<String, Long>()
+        val currentCount = (cache.get("SearchCounts", keyword) ?: 0) + 1
+        cache.put("SearchCounts", keyword, currentCount)
         SqmNode.log.info("keyword '$keyword' Count: $currentCount")
     }
 
@@ -53,7 +53,7 @@ class SearchServiceImpl (
     }
 
     @Transactional
-    override fun updateOrCreateSearchCount(keyword: String, count: Long){
+    override fun updateOrCreateSearchCount(keyword: String, count: Long) {
         val searchCount = searchHistoryRepository.findByKeywords(keyword)
             ?: SearchHistoryEntity(
                 keywords = keyword,
