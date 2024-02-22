@@ -7,29 +7,19 @@ import jakarta.persistence.*
 @Table(name = "search_history")
 class SearchHistoryEntity(
     @Column(name = "keyword")
-    var keywords: String? = null,
+    var keywords: String,
 
-    @Column(name = "total_search_count")
-    var totalSearchCount: Long = 0,
-
-    @Column(name = "previous_Search_Count")
-    var previousSearchCount: Long = 0,
-
+    @Column(name = "score")
+    var score: Double? = null,
     ) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var searchId: Long? = null
+    var searchId: Long = 0
 
-    fun updateSearchCount(keyword: String, count: Long){
-        keywords = keyword
-        previousSearchCount = count
-        totalSearchCount = count + previousSearchCount
-    }
-
-    fun toResponseDto(): KeywordResponseDto{
+    fun toResponseDto(): KeywordResponseDto {
         return KeywordResponseDto(
-            keyword = keywords!!
+            keyword = this.keywords,
         )
     }
-
 }

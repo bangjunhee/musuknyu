@@ -61,6 +61,7 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3") //JWT
 	// runtimeOnly("org.postgresql:postgresql") //postgresql
 	implementation("com.h2database:h2") //h2
+	runtimeOnly("com.h2database:h2")
 
 
 }
