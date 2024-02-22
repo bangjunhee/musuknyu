@@ -14,4 +14,5 @@ interface SearchService {
         itemTag: ItemTag,
         keywords: String?
     ): Page<ItemResponseDto>
+    fun saveKeywordsByZSet(keywords: String?)
 }

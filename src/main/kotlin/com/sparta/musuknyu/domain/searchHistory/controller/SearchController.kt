@@ -36,6 +36,7 @@ class SearchController(
         itemTag: ItemTag,
         keyWords: String?
     ): ResponseEntity<Page<ItemResponseDto>> {
+        searchService.saveKeywordsByZSet(keyWords)
         val itemList = searchService.getItemListPaginated(page, sortOrder, itemTag, keyWords)
         return ResponseEntity
             .status(HttpStatus.OK)
