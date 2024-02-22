@@ -19,7 +19,7 @@ class SearchServiceImpl (
 ): SearchService {
 
     override fun getPopularKeywords(): List<KeywordResponseDto> {
-        val keywordEntries = redisTemplate.opsForZSet().reverseRangeWithScores("ㄱㅁ", 0, 9)
+        val keywordEntries = redisTemplate.opsForZSet().reverseRangeWithScores("rank", 0, 9)
             ?: emptySet()
         return keywordEntries.map { entry ->
             val keyword = entry.value as String
