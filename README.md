@@ -14,14 +14,15 @@
   <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white">
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white">
 </div>
 
 ## 👨🏻‍💻 Built With
 
 * [김건우](https://github.com/hongdul) - 팀장
-* [한정민](https://github.com/) - 조원 
-* [방준희](https://github.com/) - 조원
-* [이율](https://github.com/) - 조원
+* [한정민](https://github.com/jeongminy) - 조원 
+* [방준희](https://github.com/bangjunhee) - 조원
+* [이율](https://github.com/dyorcat) - 조원
 
 
 ## 와이어프레임
@@ -36,6 +37,8 @@
 
 ## API
 
+<img width="709" alt="스크린샷 2024-02-23 오전 1 11 06" src="https://github.com/bangjunhee/musuknyu/assets/48382951/62c48193-de9e-4c4e-b521-e79531bf8fea">
 
 ## 패키지 구조
 
+<img width="335" alt="스크린샷 2024-02-23 오전 1 12 52" src="https://github.com/bangjunhee/musuknyu/assets/48382951/662ff333-0136-43e6-94da-3984b1289504">
